@@ -344,3 +344,6 @@ export const formatReward = (value, rewardType) => {
   if (rewardType === "cash") return `${value}%`;
   return `${value}X`;
 };
+
+// Cache-busting variable to force CRA rebuild on every commit
+export const DATA_VERSION = Date.now();
