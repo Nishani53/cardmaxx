@@ -55,7 +55,7 @@ const CardChip = ({ card, reward, onClick, rank }) => (
 );
 
 // ─── HOME SCREEN ──────────────────────────────────────────────────────────────
-const HomeScreen = ({ setScreen, myWallet }) => {
+const HomeScreen = ({ setScreen, myWallet, theme, toggleTheme }) => {
   const [time, setTime] = useState(new Date());
   useEffect(() => { const t = setInterval(() => setTime(new Date()), 60000); return () => clearInterval(t); }, []);
   const hour = time.getHours();
@@ -65,6 +65,9 @@ const HomeScreen = ({ setScreen, myWallet }) => {
     <div className="screen home-screen">
       <div className="home-hero">
         <div className="hero-glow" />
+        <button className="theme-toggle" onClick={toggleTheme}>
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
         <div className="hero-content">
           <div className="hero-greeting">{greeting} 👋</div>
           <h1 className="hero-title">CardMaxx</h1>
@@ -552,6 +555,7 @@ const BottomNav = ({ screen, setScreen }) => {
 // ─── APP ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [screen, setScreen] = useState('home');
+  const [theme, setTheme] = useState(() => localStorage.getItem('cardmaxx_theme') || 'dark');
   const [myWallet, setMyWallet] = useState(() => {
     try { return JSON.parse(localStorage.getItem('cardmaxx_wallet') || '[]'); }
     catch { return []; }
@@ -562,6 +566,13 @@ export default function App() {
     catch {}
   }, [myWallet]);
 
+  useEffect(() => {
+    try { localStorage.setItem('cardmaxx_theme', theme); }
+    catch {}
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+
   const toggleWallet = (cardId) => {
     setMyWallet(prev =>
       prev.includes(cardId) ? prev.filter(id => id !== cardId) : [...prev, cardId]
@@ -569,7 +580,7 @@ export default function App() {
   };
 
   const screens = {
-    home: <HomeScreen setScreen={setScreen} myWallet={myWallet} />,
+    home: <HomeScreen setScreen={setScreen} myWallet={myWallet} theme={theme} toggleTheme={toggleTheme} />,
     recommender: <RecommenderScreen myWallet={myWallet} />,
     cards: <AllCardsScreen myWallet={myWallet} toggleWallet={toggleWallet} />,
     wallet: <WalletScreen myWallet={myWallet} toggleWallet={toggleWallet} setScreen={setScreen} />,
@@ -580,7 +591,7 @@ export default function App() {
   };
 
   return (
-    <div className="app">
+    <div className={`app ${theme}`}>
       <div className="app-content">
         {screens[screen] || screens.home}
       </div>
