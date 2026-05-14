@@ -1,0 +1,8 @@
+{
+  "short_name": "CardMaxx",
+  "name": "CardMaxx — Maximize Your Rewards",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0a0a0f",
+  "background_color": "#0a0a0f"
+}
