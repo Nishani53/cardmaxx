@@ -98,7 +98,7 @@ const HomeScreen = ({ setScreen, myWallet, theme, toggleTheme }) => {
       <div className="home-stats">
         <div className="stat-card">
           <div className="stat-num">{CARDS.length}</div>
-          <div className="stat-label">Cards in DB</div>
+          <div className="stat-label">Total Cards</div>
         </div>
         <div className="stat-card">
           <div className="stat-num">{myWallet.length}</div>
