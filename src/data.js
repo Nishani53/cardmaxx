@@ -221,7 +221,7 @@ export const CARDS = [
     color: "#003b6f",
     rewards: { dining: 3, groceries: 3, gas: 3, travel: 3, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
     notes: "3X on travel, gas, dining & groceries"
-  }
+  },
     {
     id: 19,
     name: "Costco Anywhere Visa",
