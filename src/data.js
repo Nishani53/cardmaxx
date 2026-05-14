@@ -67,7 +67,7 @@ export const CARDS = [
     name: "Amex Platinum Card",
     issuer: "American Express",
     network: "Amex",
-    annualFee: 695,
+    annualFee: 895,
     rewardType: "points",
     rewardLabel: "Membership Rewards Points",
     rewards: {
