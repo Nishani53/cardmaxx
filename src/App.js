@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { CARDS, CATEGORIES, LIMITED_OFFERS, PORTALS, formatReward } from './data';
-import './App.css';
+// New
+import { CARDS, CATEGORIES, LIMITED_OFFERS, PORTALS, formatReward, DATA_VERSION } from './data';import './App.css';
+console.log("Current DATA_VERSION:", DATA_VERSION);
 
 // ─── ICONS ───────────────────────────────────────────────────────────────────
 const Icon = ({ name, size = 20 }) => {
