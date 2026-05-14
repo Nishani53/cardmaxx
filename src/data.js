@@ -47,7 +47,7 @@ export const CARDS = [
     name: "Amex Gold Card",
     issuer: "American Express",
     network: "Amex",
-    annualFee: 250,
+    annualFee: 325,
     rewardType: "points",
     rewardLabel: "Membership Rewards Points",
     color: "#b8860b",
