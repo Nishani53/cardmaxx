@@ -321,7 +321,7 @@ const Deals = () => (
         <div className="deal-bot"><span>Expires: {o.expiry}</span><span>{o.source}</span></div>
       </div>
     ))}
-    <div className="update-note"><InfoIc s={14} /><span>Updated manually. Check thepointsguy.com & issuer apps for latest offers.</span></div>
+    <div className="update-note"><InfoIc s={14} /><span>Updated manually. Check credit card issuer for latest offers.</span></div>
   </div>
 );
 
