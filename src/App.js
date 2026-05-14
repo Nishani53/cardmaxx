@@ -1,5 +1,7 @@
 // New
-import { CARDS, CATEGORIES, LIMITED_OFFERS, PORTALS, formatReward, DATA_VERSION } from './data';import './App.css';
+import React from 'react';
+import { CARDS, CATEGORIES, LIMITED_OFFERS, PORTALS, formatReward, DATA_VERSION } from './data';
+import './App.css';
 console.log("Current DATA_VERSION:", DATA_VERSION);
 
 // ─── ICONS ───────────────────────────────────────────────────────────────────
