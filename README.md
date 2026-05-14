@@ -16,4 +16,4 @@
 - PWA (installable on phone)
 
 ## Deployment
-Deployed on Vercel — [cardmaxx.vercel.app](https://cardmaxx.vercel.app)
+Deployed on Vercel — [cardmaxx.vercel.app](https://cardmaxx-6z4a7yye9-naresh-khanal-s-projects.vercel.app/)
