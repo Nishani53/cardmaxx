@@ -261,14 +261,14 @@ export const CATEGORIES = [
 ];
 
 export const LIMITED_OFFERS = [
-  { card: "Chase Sapphire Preferred", offer: "5X points on Lyft rides", category: "Dining", bonus: 5, expiry: "2025-12-31", source: "chase.com" },
-  { card: "Amex Gold Card", offer: "4X on US supermarkets up to $25k/yr", category: "Groceries", bonus: 4, expiry: "2025-12-31", source: "americanexpress.com" },
-  { card: "Amex Platinum", offer: "5X on flights booked direct or via Amex Travel", category: "Travel", bonus: 5, expiry: "2025-12-31", source: "americanexpress.com" },
-  { card: "Discover it Cash Back", offer: "5% at Gas Stations & EV Charging (Q3)", category: "Gas", bonus: 5, expiry: "2025-09-30", source: "discover.com" },
-  { card: "Capital One Savor", offer: "8% on Capital One Entertainment tickets", category: "Entertainment", bonus: 8, expiry: "2025-12-31", source: "capitalone.com" },
-  { card: "Amazon Prime Visa", offer: "5% at Whole Foods Market", category: "Groceries", bonus: 5, expiry: "2025-12-31", source: "amazon.com" },
-  { card: "Blue Cash Preferred", offer: "6% at US supermarkets up to $6k/yr", category: "Groceries", bonus: 6, expiry: "2025-12-31", source: "americanexpress.com" },
-  { card: "Costco Anywhere Visa", offer: "4% on eligible gas worldwide", category: "Gas", bonus: 4, expiry: "2025-12-31", source: "costco.com" }
+  { card: "Chase Sapphire Preferred", offer: "5X points on travel via Chase Travel & Lyft (through 2027)", category: "Travel", bonus: 5, expiry: "2027-09-30", source: "chase.com" },
+  { card: "Amex Gold Card", offer: "4X on dining worldwide & US supermarkets up to $25k/yr", category: "Dining & Groceries", bonus: 4, expiry: "2026-12-31", source: "americanexpress.com" },
+  { card: "Amex Platinum", offer: "5X on flights & prepaid hotels via Amex Travel", category: "Travel", bonus: 5, expiry: "2026-12-31", source: "americanexpress.com" },
+  { card: "Discover it Cash Back", offer: "5% cash back on rotating quarterly categories", category: "Rotating Categories", bonus: 5, expiry: "2026-12-31", source: "discover.com" },
+  { card: "Capital One Savor", offer: "8% cash back on Capital One Entertainment", category: "Entertainment", bonus: 8, expiry: "2026-12-31", source: "capitalone.com" },
+  { card: "Amazon Prime Visa", offer: "5% cash back at Amazon & Whole Foods with Prime", category: "Groceries & Online", bonus: 5, expiry: "2026-12-31", source: "amazon.com" },
+  { card: "Blue Cash Preferred", offer: "6% cash back at US supermarkets up to $6k/yr", category: "Groceries", bonus: 6, expiry: "2026-12-31", source: "americanexpress.com" },
+  { card: "Costco Anywhere Visa", offer: "4% cash back on gas & EV charging up to $7k/yr", category: "Gas", bonus: 4, expiry: "2026-12-31", source: "costco.com" }
 ];
 
 export const PORTALS = [
