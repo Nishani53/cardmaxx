@@ -20,6 +20,18 @@ export const CARDS = [
   },
   {
     id: 2,
+    name: "Amex Blue Cash Everyday",
+    issuer: "American Express",
+    network: "Amex",
+    annualFee: 0,
+    rewardType: "cash",
+    rewardLabel: "Cash Back",
+    color: "#006fcf",
+    rewards: { dining: 1, groceries: 3, gas: 1, travel: 1, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
+    notes: "3% at US supermarkets, 2% on gas and transit"
+  },
+  {
+    id: 3,
     name: "Amex Gold Card",
     issuer: "American Express",
     network: "Amex",
@@ -31,7 +43,7 @@ export const CARDS = [
     notes: "$120 dining credit + $120 Uber Cash per year"
   },
   {
-    id: 3,
+    id: 4,
     name: "Amex Platinum Card",
     issuer: "American Express",
     network: "Amex",
@@ -43,7 +55,7 @@ export const CARDS = [
     notes: "5X on flights; $200 airline fee credit; lounge access"
   },
   {
-    id: 4,
+    id: 5,
     name: "Apple Card",
     issuer: "Goldman Sachs",
     network: "Mastercard",
@@ -55,7 +67,7 @@ export const CARDS = [
     notes: "3% at Apple & select merchants; 2% Apple Pay; Daily Cash"
   },
   {
-    id: 5,
+    id: 6,
     name: "Bank of America CCR",
     issuer: "Bank of America",
     network: "Visa",
@@ -67,7 +79,7 @@ export const CARDS = [
     notes: "3% on chosen category; Preferred Rewards boosts to 5.25%"
   },
   {
-    id: 6,
+    id: 7,
     name: "Blue Cash Preferred (Amex)",
     issuer: "American Express",
     network: "Amex",
@@ -79,7 +91,7 @@ export const CARDS = [
     notes: "6% US supermarkets up to $6k/yr; 6% streaming"
   },
   {
-    id: 7,
+    id: 8,
     name: "Capital One Savor Cash",
     issuer: "Capital One",
     network: "Mastercard",
@@ -91,7 +103,19 @@ export const CARDS = [
     notes: "8% on Capital One Entertainment purchases"
   },
   {
-    id: 8,
+    id: 9,
+    name: "Capital One Spark Cash",
+    issuer: "Capital One",
+    network: "Mastercard",
+    annualFee: 0,
+    rewardType: "cash",
+    rewardLabel: "Cash Back",
+    color: "#d03027",
+    rewards: { dining: 1, groceries: 1, gas: 1, travel: 1, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 2 },
+    notes: "2% cashback on all business purchases"
+  },
+  {
+    id: 10,
     name: "Capital One Venture X",
     issuer: "Capital One",
     network: "Visa",
@@ -103,7 +127,7 @@ export const CARDS = [
     notes: "10X hotels/cars via Capital One Travel; $300 travel credit"
   },
   {
-    id: 9,
+    id: 11,
     name: "Chase Freedom Unlimited",
     issuer: "Chase",
     network: "Visa",
@@ -115,7 +139,31 @@ export const CARDS = [
     notes: "5X travel via Chase portal; 3X dining & drugstores"
   },
   {
-    id: 10,
+    id: 12,
+    name: "Chase Ink Business Cash",
+    issuer: "Chase",
+    network: "Visa",
+    annualFee: 0,
+    rewardType: "points",
+    rewardLabel: "Ultimate Rewards Points",
+    color: "#1a6faf",
+    rewards: { dining: 2, groceries: 1, gas: 1, travel: 1, amazon: 1, streaming: 1, pharmacy: 5, utilities: 5, base: 1 },
+    notes: "5X office supplies & internet/cable/phone up to $25k/yr"
+  },
+  {
+    id: 13,
+    name: "Chase Ink Business Preferred",
+    issuer: "Chase",
+    network: "Visa",
+    annualFee: 95,
+    rewardType: "points",
+    rewardLabel: "Ultimate Rewards Points",
+    color: "#1a6faf",
+    rewards: { dining: 3, groceries: 2, gas: 2, travel: 3, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
+    notes: "3X on travel, shipping, internet & telecom; 1X everything else"
+  },
+  {
+    id: 14,
     name: "Chase Sapphire Preferred",
     issuer: "Chase",
     network: "Visa",
@@ -127,7 +175,7 @@ export const CARDS = [
     notes: "Points worth 25% more via Chase Travel portal"
   },
   {
-    id: 11,
+    id: 15,
     name: "Chase Sapphire Reserve",
     issuer: "Chase",
     network: "Visa",
@@ -139,7 +187,7 @@ export const CARDS = [
     notes: "$300 travel credit; 10X hotels/cars via Chase Travel"
   },
   {
-    id: 12,
+    id: 16,
     name: "Citi Custom Cash",
     issuer: "Citi",
     network: "Mastercard",
@@ -151,7 +199,7 @@ export const CARDS = [
     notes: "5% auto on your top spend category each billing cycle"
   },
   {
-    id: 13,
+    id: 17,
     name: "Citi Double Cash",
     issuer: "Citi",
     network: "Mastercard",
@@ -163,7 +211,7 @@ export const CARDS = [
     notes: "Flat 2% on everything — 1% buy + 1% pay"
   },
   {
-    id: 14,
+    id: 18,
     name: "Citi Premier Card",
     issuer: "Citi",
     network: "Mastercard",
@@ -173,9 +221,9 @@ export const CARDS = [
     color: "#003b6f",
     rewards: { dining: 3, groceries: 3, gas: 3, travel: 3, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
     notes: "3X on travel, gas, dining & groceries"
-  },
-  {
-    id: 15,
+  }
+    {
+    id: 19,
     name: "Costco Anywhere Visa",
     issuer: "Citi",
     network: "Visa",
@@ -187,7 +235,7 @@ export const CARDS = [
     notes: "4% gas up to $7k/yr; requires Costco membership"
   },
   {
-    id: 16,
+    id: 20,
     name: "Delta SkyMiles Gold Amex",
     issuer: "American Express",
     network: "Amex",
@@ -199,7 +247,7 @@ export const CARDS = [
     notes: "2X Miles on Delta purchases & dining"
   },
   {
-    id: 17,
+    id: 21,
     name: "Delta SkyMiles Platinum Amex",
     issuer: "American Express",
     network: "Amex",
@@ -211,31 +259,31 @@ export const CARDS = [
     notes: "3X Miles on Delta purchases"
   },
   {
-    id: 18,
-    name: "Hilton Honors Amex Surpass",
-    issuer: "American Express",
-    network: "Amex",
-    annualFee: 150,
-    rewardType: "points",
-    rewardLabel: "Hilton Honors Points",
-    color: "#b8860b",
-    rewards: { dining: 12, groceries: 6, gas: 3, travel: 3, amazon: 3, streaming: 3, pharmacy: 3, utilities: 3, base: 3 },
-    notes: "12X at Hilton hotels; complimentary Hilton Gold status"
-  },
-  {
-    id: 19,
-    name: "Ink Business Cash",
+    id: 22,
+    name: "Marriott Bonvoy Boundless",
     issuer: "Chase",
     network: "Visa",
-    annualFee: 0,
+    annualFee: 95,
     rewardType: "points",
-    rewardLabel: "Ultimate Rewards Points",
-    color: "#1a6faf",
-    rewards: { dining: 2, groceries: 1, gas: 1, travel: 1, amazon: 1, streaming: 1, pharmacy: 5, utilities: 5, base: 1 },
-    notes: "5X office supplies & internet/cable/phone up to $25k/yr"
+    rewardLabel: "Marriott Bonvoy Points",
+    color: "#b8860b",
+    rewards: { dining: 2, groceries: 2, gas: 1, travel: 3, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
+    notes: "6X at Marriott properties; 2X on other travel"
   },
   {
-    id: 20,
+    id: 23,
+    name: "Marriott Bonvoy Brilliant",
+    issuer: "American Express",
+    network: "Amex",
+    annualFee: 450,
+    rewardType: "points",
+    rewardLabel: "Marriott Bonvoy Points",
+    color: "#b8860b",
+    rewards: { dining: 3, groceries: 3, gas: 2, travel: 6, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
+    notes: "6X at Marriott properties; 3X on travel; $300 Marriott statement credit"
+  },
+  {
+    id: 24,
     name: "Southwest Rapid Rewards Plus",
     issuer: "Chase",
     network: "Visa",
@@ -247,7 +295,7 @@ export const CARDS = [
     notes: "2X on Southwest purchases & Rapid Rewards hotels"
   },
   {
-    id: 21,
+    id: 25,
     name: "United Explorer Card",
     issuer: "Chase",
     network: "Visa",
@@ -256,22 +304,58 @@ export const CARDS = [
     rewardLabel: "MileagePlus Miles",
     color: "#003087",
     rewards: { dining: 2, groceries: 1, gas: 1, travel: 2, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
-    notes: "2X on United airfare & hotel stays"
+    notes: "2X on United airfare & hotel stays; free checked bag"
   },
   {
-    id: 22,
-    name: "US Bank Cash+",
-    issuer: "US Bank",
+    id: 26,
+    name: "World of Hyatt Credit Card",
+    issuer: "Chase",
     network: "Visa",
-    annualFee: 0,
-    rewardType: "cash",
-    rewardLabel: "Cash Back",
-    color: "#0066cc",
-    rewards: { dining: 1, groceries: 2, gas: 1, travel: 1, amazon: 1, streaming: 1, pharmacy: 5, utilities: 5, base: 1 },
-    notes: "Choose 2 bonus 5% categories; utilities is selectable"
+    annualFee: 95,
+    rewardType: "points",
+    rewardLabel: "Hyatt Points",
+    color: "#b8860b",
+    rewards: { dining: 3, groceries: 2, gas: 1, travel: 3, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
+    notes: "4X at Hyatt hotels; 2X on dining, travel, and transit"
   },
   {
-    id: 23,
+    id: 27,
+    name: "American Airlines AAdvantage MileUp",
+    issuer: "Citi",
+    network: "Mastercard",
+    annualFee: 0,
+    rewardType: "points",
+    rewardLabel: "AAdvantage Miles",
+    color: "#003087",
+    rewards: { dining: 2, groceries: 1, gas: 1, travel: 2, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
+    notes: "2X on American Airlines purchases; 1X everywhere else"
+  },
+  {
+    id: 28,
+    name: "Amex Business Gold",
+    issuer: "American Express",
+    network: "Amex",
+    annualFee: 295,
+    rewardType: "points",
+    rewardLabel: "Membership Rewards Points",
+    color: "#b8860b",
+    rewards: { dining: 4, groceries: 4, gas: 1, travel: 4, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
+    notes: "4X points on your top 2 business categories each month; 1X on other purchases"
+  },
+  {
+    id: 29,
+    name: "Capital One Spark Miles",
+    issuer: "Capital One",
+    network: "Mastercard",
+    annualFee: 0,
+    rewardType: "miles",
+    rewardLabel: "Capital One Miles",
+    color: "#d03027",
+    rewards: { dining: 2, groceries: 2, gas: 2, travel: 2, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 2 },
+    notes: "2X miles on all business purchases"
+  },
+  {
+    id: 30,
     name: "Wells Fargo Active Cash",
     issuer: "Wells Fargo",
     network: "Visa",
@@ -283,6 +367,7 @@ export const CARDS = [
     notes: "Flat 2% unlimited — no category tracking needed"
   }
 ];
+
 export const CATEGORIES = [
   { id: "dining",     label: "Dining",     full: "Dining / Restaurants",        icon: "🍽️", examples: "Restaurants, DoorDash, Uber Eats, cafes" },
   { id: "groceries",  label: "Groceries",  full: "Groceries / Supermarkets",     icon: "🛒", examples: "Kroger, Whole Foods, Trader Joe's, Safeway" },
