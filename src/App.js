@@ -79,7 +79,7 @@ const Home = ({ go, wallet, theme, toggleTheme }) => {
       </div>
 
       <div className="stats-row">
-        <div className="stat"><div className="stat-n">{CARDS.length}</div><div className="stat-l">Cards in DB</div></div>
+        <div className="stat"><div className="stat-n">{CARDS.length}</div><div className="stat-l">Total Cards</div></div>
         <div className="stat"><div className="stat-n">{wallet.length}</div><div className="stat-l">My Cards</div></div>
         <div className="stat"><div className="stat-n">{CATEGORIES.length}</div><div className="stat-l">Categories</div></div>
       </div>
