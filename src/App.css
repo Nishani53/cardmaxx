@@ -21,6 +21,24 @@
   --radius-sm: 8px;
 }
 
+/* ─── LIGHT THEME ────────────────────────────────────────────── */
+.light {
+  --bg: #f5f5fa;
+  --surface: #ffffff;
+  --surface2: #eeeef6;
+  --border: #dcdce8;
+  --accent: #6240f0;
+  --accent2: #00a885;
+  --gold: #b8860b;
+  --silver: #707070;
+  --bronze: #8b4513;
+  --text: #0a0a1a;
+  --text2: #50507a;
+  --text3: #9090b0;
+  --green: #00a855;
+  --red: #dd2222;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 body {
@@ -72,6 +90,40 @@ body {
   background: linear-gradient(135deg, #1a0a3a 0%, #0a1a3a 50%, #0a2a1a 100%);
   margin: 0 -16px 20px;
 }
+.light .home-hero {
+  background: linear-gradient(135deg, #e8e0ff 0%, #ddeeff 50%, #d0f5ec 100%);
+}
+.light .hero-title {
+  background: linear-gradient(135deg, #2a0a6a 0%, #4020b0 60%, #006655 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.light .hero-greeting { color: var(--text2); }
+.light .hero-sub { color: var(--text2); }
+.light .hero-glow {
+  background: radial-gradient(circle, rgba(98,64,240,0.2) 0%, transparent 70%);
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  z-index: 10;
+}
+.theme-toggle:active { transform: scale(0.9) rotate(20deg); }
+.light .theme-toggle { background: rgba(0,0,0,0.1); }
 
 .hero-glow {
   position: absolute;
