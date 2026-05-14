@@ -2,6 +2,7 @@
   "name": "cardmaxx",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://cardmaxx-6z4a7yye9-naresh-khanal-s-projects.vercel.app",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
