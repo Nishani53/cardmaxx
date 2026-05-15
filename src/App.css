@@ -323,8 +323,6 @@ body { background: #0a0a0f; }
 .btn-primary:active { transform: scale(0.98); }
 .btn-remove { border-color: #ff4757; color: #ff4757; background: rgba(255, 71, 87, 0.05); }
 
-/* ... above: .btn-remove { border-color: #ff4757; ... } ... */
-
 /* --- REFERRAL BUTTON STYLES --- */
 .apply-btn {
   display: flex;
@@ -362,9 +360,6 @@ body { background: #0a0a0f; }
   margin-bottom: 20px;
 }
 
-/* Styled Notes */
-.notes-box {
-/* ... below: notes-box styles ... */
 /* Styled Notes */
 .notes-box {
   background: rgba(124, 92, 252, 0.05);
