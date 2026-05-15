@@ -474,6 +474,89 @@ const Guide = () => {
     </div>
   );
 };
+// ─── CARD DETAIL ──────────────────────────────────────────────────────────────
+const CardDetail = ({ params, wallet, toggleWallet, go }) => {
+  const { card } = params;
+  const isOwned = wallet.includes(card.id);
+
+  // Sample monthly spend to show comparison
+  const sampleSpend = { dining: 300, groceries: 400, gas: 150, travel: 200, base: 500 };
+  
+  // Calculate this card's annual value
+  const thisCardValue = CATEGORIES.reduce((s, cat) => 
+    s + (card.rewards[cat.id] / 100) * (sampleSpend[cat.id] || 0) * 12, 0) - card.annualFee;
+
+  // Find user's current best card from their wallet for comparison
+  const myCards = CARDS.filter(c => wallet.includes(c.id));
+  const myBestValue = myCards.length > 0 
+    ? Math.max(...myCards.map(c => CATEGORIES.reduce((s, cat) => 
+        s + (c.rewards[cat.id] / 100) * (sampleSpend[cat.id] || 0) * 12, 0) - c.annualFee))
+    : 0;
+
+  const diff = thisCardValue - myBestValue;
+
+  return (
+    <div className="screen animate-in">
+      <div className="detail-nav">
+        <button className="back-btn" onClick={() => go('cards')}><BackIc s={18}/> Back</button>
+      </div>
+
+      <div className="detail-card" style={{ background: card.color }}>
+        <div className="dc-issuer">{card.issuer}</div>
+        <div className="dc-name">{card.name}</div>
+        <div className="dc-chip" />
+        <div className="dc-network">{card.network}</div>
+      </div>
+
+      <div className="detail-actions">
+        <button 
+          className={`btn-primary ${isOwned ? 'btn-remove' : ''}`}
+          onClick={() => toggleWallet(card.id)}
+        >
+          {isOwned ? 'Remove from Wallet' : 'Add to Wallet'}
+        </button>
+      </div>
+
+      {wallet.length > 0 && !isOwned && (
+        <div className="comp-box">
+          <div className="comp-header">
+            <span style={{fontWeight: 700, fontSize: '14px'}}>Vs. Your Best Card</span>
+            <span className={`comp-badge ${diff >= 0 ? 'badge-win' : 'badge-loss'}`}>
+              {diff >= 0 ? `+$${Math.round(diff)} Profit` : `$${Math.abs(Math.round(diff))} Loss`}
+            </span>
+          </div>
+          <div className="comp-row">
+            <span className="comp-label">This Card's Est. Rewards</span>
+            <span className="comp-val" style={{color: 'var(--acc2)'}}>${Math.round(thisCardValue)}/yr</span>
+          </div>
+          <div className="comp-row">
+            <span className="comp-label">Your Current Best</span>
+            <span className="comp-val">${Math.round(myBestValue)}/yr</span>
+          </div>
+        </div>
+      )}
+
+      <div className="sec-title">Reward Rates</div>
+      <div className="detail-grid">
+        {CATEGORIES.map(cat => (
+          <div key={cat.id} className="dg-item">
+            <div className="dg-icon">{cat.icon}</div>
+            <div className="dg-info">
+              <div className="dg-label">{cat.label}</div>
+              <div className="dg-val">{fmt(card.rewards[cat.id], card.rewardType)}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="sec-title">Card Notes</div>
+      <div className="notes-box">{card.notes}</div>
+      
+      <div className="sec-title">Annual Fee</div>
+      <div className="fee-box">${card.annualFee} <span className="fee-label">per year</span></div>
+    </div>
+  );
+};
 
 // ─── BOTTOM NAV ───────────────────────────────────────────────────────────────
 const Nav = ({ screen, go }) => {
