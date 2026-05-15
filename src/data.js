@@ -479,18 +479,29 @@ export const CARDS = [
     "notes": "$350 fee; Annual Companion Certificate; $120 Resy + $120 Rideshare + $150 Delta Stays credits."
   },
 
-  {
-    "id": 31,
-    "name": "Discover it® Cash Back",
-    "issuer": "Capital One (Discover)",
-    "network": "Discover",
-    "annualFee": 0,
-    "rewardType": "cash",
-    "rewardLabel": "Cash Back",
-    "color": "#ff0000",
-    "rewards": { "rotating": 5, "base": 1 },
-    "notes": "Q2 2026: 5% at Restaurants & Home Improvement; Unlimited Cashback Match for year 1."
+{
+  id: 31,
+  name: "Discover it® Cash Back",
+  issuer: "Discover", // Simplified for brand recognition
+  network: "Discover",
+  annualFee: 0,
+  rewardType: "cash",
+  rewardLabel: "Cash Back",
+  color: "#ff6000", // Using Discover's signature orange instead of pure red
+  referralUrl: "https://refer.discover.com/dclixg!b8912bfebe!a",
+  rewards: { 
+    dining: 5,      // Based on your Q2 2026 notes
+    groceries: 1, 
+    gas: 1, 
+    travel: 1, 
+    amazon: 1, 
+    streaming: 1, 
+    pharmacy: 1, 
+    utilities: 5,   // Often categorized with Home Improvement
+    base: 1 
   },
+  notes: "Q2 2026: 5% at Restaurants & Home Improvement Stores. First year: All cash back is doubled!"
+},
   {
     "id": 32,
     "name": "Discover it® Student Cash Back",
