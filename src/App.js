@@ -581,40 +581,48 @@ const Nav = ({ screen, go }) => {
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [screen, setScreen] = useState('home');
+  // 1. Added params state to store the "selected" card data
+  const [params, setParams] = useState({}); 
 
-  // THEME — saved in localStorage so it persists
   const [theme, setTheme] = useState(() => {
     try { return localStorage.getItem('cm_theme') || 'dark'; }
     catch { return 'dark'; }
   });
+
   const toggleTheme = () => setTheme(t => {
     const next = t === 'dark' ? 'light' : 'dark';
     try { localStorage.setItem('cm_theme', next); } catch {}
     return next;
   });
 
-  // WALLET — saved in localStorage so cards persist
   const [wallet, setWallet] = useState(() => {
     try { return JSON.parse(localStorage.getItem('cm_wallet') || '[]'); }
     catch { return []; }
   });
+
   const toggleWallet = id => setWallet(prev => {
     const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
     try { localStorage.setItem('cm_wallet', JSON.stringify(next)); } catch {}
     return next;
   });
 
-  const go = s => setScreen(s);
+  // 2. Updated go function to handle passing card data
+  const go = (s, p = {}) => {
+    setScreen(s);
+    setParams(p);
+  };
 
   const pages = {
     home:        <Home go={go} wallet={wallet} theme={theme} toggleTheme={toggleTheme} />,
     recommender: <Recommender wallet={wallet} />,
-    cards:       <AllCards wallet={wallet} toggleWallet={toggleWallet} />,
+    cards:       <AllCards wallet={wallet} toggleWallet={toggleWallet} go={go} />,
     wallet:      <MyWallet wallet={wallet} toggleWallet={toggleWallet} go={go} />,
     calculator:  <Calculator wallet={wallet} />,
     deals:       <Deals />,
     portals:     <Portals />,
     guide:       <Guide />,
+    // 3. Registered the detail page here
+    detail:      <CardDetail params={params} wallet={wallet} toggleWallet={toggleWallet} go={go} />,
   };
 
   return (
