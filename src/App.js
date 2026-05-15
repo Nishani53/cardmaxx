@@ -304,25 +304,45 @@ const Calculator = ({ wallet }) => {
       {wallet.length === 0 && <div className="wallet-hint">💡 Add cards to My Wallet to see personalized results</div>}
 
       <div className="sec-title">Best Cards for Your Spending</div>
-      {results.slice(0, 10).map((c, i) => (
-        <div key={c.id} className={`calc-result ${i === 0 ? 'top' : ''}`}>
-          <div className="cr-left">
-            <span className="cr-rank">#{i + 1}</span>
-            <div>
-              <div className="cr-name">{c.name}</div>
-              <div className="cr-type">{c.rewardLabel}</div>
+
+      {/* --- UPDATED RESULTS SECTION --- */}
+      {results.slice(0, 10).map((c, i) => {
+        // This calculates how long the progress bar should be compared to the #1 card
+        const topAmount = results[0].net;
+        const barWidth = topAmount > 0 ? (c.net / topAmount) * 100 : 0;
+
+        return (
+          <div key={c.id} className={`calc-result ${i === 0 ? 'top' : ''}`}>
+            {/* Top row with name and dollar amount */}
+            <div className="cr-main-row">
+              <div className="cr-left">
+                <span className="cr-rank">#{i + 1}</span>
+                <div>
+                  <div className="cr-name">{c.name}</div>
+                  <div className="cr-type">{c.rewardLabel}</div>
+                </div>
+              </div>
+              <div className="cr-right">
+                <div className={`cr-amt ${c.net >= 0 ? 'pos' : 'neg'}`}>
+                  {c.net >= 0 ? '+' : ''}${Math.round(c.net)}
+                </div>
+                <div className="cr-yr">per year</div>
+              </div>
+            </div>
+            
+            {/* The new Progress Bar that shows up under the text */}
+            <div className="cr-bar-container">
+              <div 
+                className="cr-bar-fill" 
+                style={{ width: `${Math.max(0, barWidth)}%` }}
+              />
             </div>
           </div>
-          <div className="cr-right">
-            <div className={`cr-amt ${c.net >= 0 ? 'pos' : 'neg'}`}>{c.net >= 0 ? '+' : ''}${Math.round(c.net)}</div>
-            <div className="cr-yr">per year</div>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
-
 // ─── DEALS ────────────────────────────────────────────────────────────────────
 const Deals = () => (
   <div className="screen">
