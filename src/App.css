@@ -134,7 +134,18 @@ body { background: #0a0a0f; }
   cursor: pointer; text-align: left; transition: transform 0.15s;
 }
 .home-btn:active { transform: scale(0.97); }
-.home-btn.primary { background: linear-gradient(135deg, var(--acc), #4a2acc); }
+// .home-btn.primary { background: linear-gradient(135deg, var(--acc), #4a2acc); }
+.home-btn.primary { 
+  background: var(--surf2); 
+  border: 1.5px solid var(--acc); /* Keeps the purple as a subtle accent border */
+}
+
+/* Optional: change the icon background to make it pop */
+.home-btn.primary .hb-icon {
+  background: rgba(124, 92, 252, 0.15);
+  padding: 8px;
+  border-radius: 10px;
+}
 .home-btn.secondary { background: var(--surf2); border: 1px solid var(--bord); }
 .hb-icon { font-size: 24px; }
 .hb-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--txt); }
