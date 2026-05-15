@@ -28,6 +28,7 @@ export const CARDS = [
   },
   "notes": "2X on American Airlines and Grocery stores; 1X everywhere else"
 },
+
 {
   id: 2,
   name: "Amex Blue Cash Everyday",
@@ -36,13 +37,14 @@ export const CARDS = [
   annualFee: 0,
   rewardType: "cash",
   rewardLabel: "Cash Back",
+  referralUrl: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref=NARESK79GD&xl=cp01",
   color: "#006fcf",
   rewards: { 
     dining: 1, 
     groceries: 3, 
-    gas: 3,        // Updated from 1% to 3%
+    gas: 3, 
     travel: 1, 
-    amazon: 3,     // Online retail includes Amazon
+    amazon: 3, 
     streaming: 1, 
     pharmacy: 1, 
     utilities: 1, 
@@ -50,6 +52,8 @@ export const CARDS = [
   },
   notes: "3% on US supermarkets, online retail, and gas (up to $6k/yr per category)."
 },
+
+ 
  {
     "id": 3,
     "name": "Amex Business Gold",
@@ -203,7 +207,8 @@ export const CARDS = [
     "rewards": { "base": 1.5, "travel": 5, "entertainment": 5 },
     "notes": "1.5% on all; 5% on Travel/Entertainment via Capital One portal; No foreign transaction fees."
   },
-  {
+
+{
     "id": 12,
     "name": "Capital One Savor",
     "issuer": "Capital One",
@@ -211,10 +216,20 @@ export const CARDS = [
     "annualFee": 0,
     "rewardType": "cash",
     "rewardLabel": "Cash Back",
+    "referralUrl": "https://i.capitalone.com/JiPOwWnxi",
     "color": "#d03027",
-    "rewards": { "dining": 3, "groceries": 3, "streaming": 3, "entertainment": 3, "travel": 5, "uber": 10, "base": 1 },
+    "rewards": { 
+      "dining": 3, 
+      "groceries": 3, 
+      "streaming": 3, 
+      "entertainment": 3, 
+      "travel": 5, 
+      "uber": 10, 
+      "base": 1 
+    },
     "notes": "3% Dining/Grocery/Streaming/Entertainment; 10% on Uber/Uber Eats; No annual fee."
   },
+ 
   {
     "id": 13,
     "name": "Capital One Spark Cash Select",
@@ -255,7 +270,8 @@ export const CARDS = [
     },
     "notes": "2X on all; 5X on Travel/Entertainment via portal; $120 Global Entry credit; $250 one-time travel credit (intro offer)."
   },
-  {
+
+ {
     "id": 16,
     "name": "Capital One Venture X",
     "issuer": "Capital One",
@@ -263,6 +279,7 @@ export const CARDS = [
     "annualFee": 395,
     "rewardType": "miles",
     "rewardLabel": "Capital One Miles",
+    "referralUrl": "https://i.capitalone.com/Ga90bVx7i",
     "color": "#d03027",
     "rewards": { 
       "base": 2, 
@@ -273,7 +290,7 @@ export const CARDS = [
     },
     "notes": "$300 annual travel credit; 10k anniversary miles ($100 value); Unlimited lounge access; $120 Global Entry credit."
   },
-    
+ 
   {
     "id": 17,
     "name": "Chase Freedom Flex",
