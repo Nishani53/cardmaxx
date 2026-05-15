@@ -241,30 +241,46 @@ const AllCards = ({ wallet, toggleWallet }) => {
 };
 
 // ─── MY WALLET ────────────────────────────────────────────────────────────────
-const MyWallet = ({ wallet, toggleWallet, go }) => {
-  const mine = CARDS.filter(c => wallet.includes(c.id));
-  if (!mine.length) return (
-    <div className="screen">
-      <div className="pg-header"><h2>My Wallet</h2></div>
-      <div className="empty" style={{ marginTop: 60 }}>
-        <div className="empty-ico">💳</div>
-        <p><strong>Your wallet is empty</strong></p>
-        <p style={{ marginTop: 6, fontSize: 13 }}>Add cards you own for personalized recommendations</p>
-        <button className="prim-btn" style={{ marginTop: 20 }} onClick={() => go('cards')}>Browse Cards</button>
-      </div>
-    </div>
-  );
+const MyWallet = ({ wallet, removeCard, go }) => {
+  const myCards = CARDS.filter(c => wallet.includes(c.id));
+
   return (
     <div className="screen">
-      <div className="pg-header"><h2>My Wallet</h2><p>{mine.length} card{mine.length !== 1 ? 's' : ''} saved</p></div>
-      <div className="wallet-tip"><InfoIc s={14} /><span>Tap a card to view details. Use "Find Best Card" with My Cards Only for personalized results.</span></div>
-      {mine.map(c => (
-        <div key={c.id} className="wallet-row">
-          <CardRow card={c} />
-          <button className="rm-btn" onClick={() => toggleWallet(c.id)}><TrashIc s={16} /></button>
+      <div className="pg-header">
+        <h2>My Wallet</h2>
+        <p>Manage the cards you currently own</p>
+      </div>
+
+      {myCards.length > 0 ? (
+        <>
+          <div className="wallet-tip">
+            <span>💡</span>
+            <div>The Calculator uses these cards to find your best personal savings.</div>
+          </div>
+          
+          {myCards.map(c => (
+            <div key={c.id} className="wallet-row">
+              <CardRow card={c} onClick={() => go('detail', { card: c })} />
+              <button className="rm-btn" onClick={() => removeCard(c.id)}>✕</button>
+            </div>
+          ))}
+
+          <button className="add-more-btn" onClick={() => go('cards')}>
+            + Add Another Card
+          </button>
+        </>
+      ) : (
+        <div className="empty-wallet">
+          <div className="empty-icon">💳</div>
+          <div className="empty-title">Your Wallet is Empty</div>
+          <div className="empty-sub">
+            Add the credit cards you already own to see exactly how much you're earning.
+          </div>
+          <button className="pulse-btn" onClick={() => go('cards')}>
+            Browse All Cards
+          </button>
         </div>
-      ))}
-      <button className="add-more-btn" onClick={() => go('cards')}><PlusIc s={16} /> Add More Cards</button>
+      )}
     </div>
   );
 };
