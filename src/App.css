@@ -259,7 +259,7 @@ body { background: #0a0a0f; }
 .pill.on { border-color: var(--acc); color: var(--acc); background: rgba(124,92,252,0.08); }
 
 
-/* --- PREMIUM CARD DETAIL (REPLACE YOUR OLD SECTION WITH THIS) --- */
+/* --- PREMIUM CARD DETAIL  --- */
 
 .detail-nav { margin-bottom: 10px; }
 
@@ -323,6 +323,48 @@ body { background: #0a0a0f; }
 .btn-primary:active { transform: scale(0.98); }
 .btn-remove { border-color: #ff4757; color: #ff4757; background: rgba(255, 71, 87, 0.05); }
 
+/* ... above: .btn-remove { border-color: #ff4757; ... } ... */
+
+/* --- REFERRAL BUTTON STYLES --- */
+.apply-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--acc); /* Your purple/accent color */
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 15px rgba(124, 92, 252, 0.3);
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.apply-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 92, 252, 0.5);
+  filter: brightness(1.1);
+}
+
+.apply-btn:active {
+  transform: translateY(0);
+}
+
+/* Container to keep buttons tidy */
+.detail-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Styled Notes */
+.notes-box {
+/* ... below: notes-box styles ... */
 /* Styled Notes */
 .notes-box {
   background: rgba(124, 92, 252, 0.05);
