@@ -314,7 +314,9 @@ const Calculator = ({ wallet }) => {
 
   // 1. Logic: Calculate results for EVERY card in the database first
   const allResults = CARDS.map(c => {
-    let total = CATEGORIES.reduce((s, cat) => s + (c.rewards[cat.id] / 100) * (spend[cat.id] || 0) * 12, 0);
+let total = CATEGORIES.reduce((s, cat) => 
+  s + ((c.rewards[cat.label.toLowerCase()] || 0) / 100) * (spend[cat.label.toLowerCase()] || 0) * 12
+, 0);
     return { 
       ...c, 
       net: total - c.annualFee,
