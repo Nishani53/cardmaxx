@@ -183,59 +183,74 @@ const Recommender = ({ wallet }) => {
 };
 
 // ─── ALL CARDS ────────────────────────────────────────────────────────────────
-const AllCards = ({ wallet, toggleWallet }) => {
-  const [q, setQ] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [detail, setDetail] = useState(null);
+const AllCards = ({ wallet, go }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All");
 
-  const filtered = CARDS.filter(c => {
-    const ms = c.name.toLowerCase().includes(q.toLowerCase()) || c.issuer.toLowerCase().includes(q.toLowerCase());
-    const mf = filter === 'all' ? true : filter === 'cash' ? c.rewardType === 'cash' : filter === 'pts' ? c.rewardType !== 'cash' : c.annualFee === 0;
-    return ms && mf;
+  // 1. Logic: Filter the cards based on Search + Pills
+  const filteredCards = CARDS.filter(card => {
+    const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          card.issuer.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesFilter = 
+      activeFilter === "All" ? true :
+      activeFilter === "No Annual Fee" ? card.annualFee === 0 :
+      activeFilter === "Cashback" ? card.rewardType === "cash" :
+      activeFilter === "Points" ? card.rewardType === "pts" : true;
+
+    return matchesSearch && matchesFilter;
   });
 
-  if (detail) {
-    const c = detail;
-    const inW = wallet.includes(c.id);
-    return (
-      <div className="screen">
-        <button className="back-btn" onClick={() => setDetail(null)}><BackIc s={18} /> Back</button>
-        <div className="detail-card" style={{ '--cc': c.color }}>
-          <div className="detail-topbar" />
-          <h2 className="detail-name">{c.name}</h2>
-          <div className="detail-meta">{c.issuer} · {c.network}</div>
-          <div className="detail-meta">Annual Fee: <strong>{c.annualFee === 0 ? 'None ✅' : `$${c.annualFee}/year`}</strong></div>
-          <div className="detail-type">{c.rewardLabel}</div>
-
-          <div className="sec-title" style={{ marginTop: 14 }}>Rewards by Category</div>
-          {CATEGORIES.map(cat => (
-            <div key={cat.id} className="reward-row">
-              <span className="rr-ico">{cat.icon}</span>
-              <span className="rr-lbl">{cat.full}</span>
-              <Badge value={c.rewards[cat.id]} type={c.rewardType} />
-            </div>
-          ))}
-
-          <div className="notes-box"><InfoIc s={15} /><span>{c.notes}</span></div>
-
-          <button className={`wallet-btn ${inW ? 'in' : ''}`} onClick={() => toggleWallet(c.id)}>
-            {inW ? '✓ In My Wallet — Tap to Remove' : '+ Add to My Wallet'}
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const filters = ["All", "No Annual Fee", "Cashback", "Points"];
 
   return (
     <div className="screen">
-      <div className="pg-header"><h2>All Cards</h2><p>{CARDS.length} cards in database</p></div>
-      <input className="search-box" placeholder="🔍 Search cards or issuers..." value={q} onChange={e => setQ(e.target.value)} />
-      <div className="pills">
-        {[['all','All'],['cash','Cash Back'],['pts','Points/Miles'],['nofee','No Annual Fee']].map(([v,l]) => (
-          <button key={v} className={`pill ${filter === v ? 'on' : ''}`} onClick={() => setFilter(v)}>{l}</button>
-        ))}
+      <div className="pg-header">
+        <h2>Credit Cards</h2>
+        <p>Browse and find your next card</p>
       </div>
-      {filtered.map(c => <CardRow key={c.id} card={c} onClick={() => setDetail(c)} />)}
+
+      <div className="search-container">
+        <div className="search-input-wrapper">
+          <span className="search-icon">🔍</span>
+          <input 
+            type="text" 
+            className="search-bar" 
+            placeholder="Search cards or banks..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="filter-scroll">
+          {filters.map(f => (
+            <div 
+              key={f} 
+              className={`filter-pill ${activeFilter === f ? 'active' : ''}`}
+              onClick={() => setActiveFilter(f)}
+            >
+              {f}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card-list">
+        {filteredCards.length > 0 ? (
+          filteredCards.map(c => (
+            <CardRow 
+              key={c.id} 
+              card={c} 
+              onClick={() => go('detail', { card: c })} 
+            />
+          ))
+        ) : (
+          <div className="empty" style={{padding: '40px 0'}}>
+            <div style={{fontSize: '40px', marginBottom: '10px'}}>🤷‍♂️</div>
+            <div>No cards match your search</div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
