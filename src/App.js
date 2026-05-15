@@ -347,7 +347,7 @@ const Guide = () => {
     { tag: 'STEP 2', icon: '🔍', title: 'Find Best Card', desc: 'Tap Find Best Card → select your purchase category → see all cards ranked best to worst instantly!' },
     { tag: 'STEP 3', icon: '🧮', title: 'Calculate Savings', desc: 'Enter your monthly spending to see which card saves you the most money per year.' },
     { tag: 'STEP 4', icon: '🛒', title: 'Stack Portals', desc: 'Check Portal Stacking before shopping online. Use portal + card together for maximum total rewards!' },
-    { tag: 'STEP 5', icon: '⚡', title: 'Track Deals', desc: 'Check Deals & Offers for limited-time bonuses. Update monthly from thepointsguy.com.' },
+    { tag: 'STEP 5', icon: '⚡', title: 'Track Deals', desc: 'Check Deals & Offers for limited-time bonuses. Update monthly from different sources.' },
     { tag: 'TIP A', icon: '🏆', title: 'Best Grocery Card', desc: 'Blue Cash Preferred (Amex) gives 6% cash back at US supermarkets — best in class.' },
     { tag: 'TIP B', icon: '🎯', title: 'Best Flat-Rate Card', desc: 'Citi Double Cash or Wells Fargo Active Cash — both 2% on everything. Keep one as catch-all.' },
     { tag: 'TIP C', icon: '✈️', title: 'Best Travel Card', desc: 'Chase Sapphire Reserve or Amex Platinum. Annual fee is worth it at 3+ trips/year.' },
