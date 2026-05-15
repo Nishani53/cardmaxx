@@ -187,16 +187,24 @@ const AllCards = ({ wallet, go }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
 
-  // 1. Logic: Filter the cards based on Search + Pills
+  // Logic: Filter the cards based on Search + Pills
   const filteredCards = CARDS.filter(card => {
+    // 1. Search Logic
     const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           card.issuer.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesFilter = 
-      activeFilter === "All" ? true :
-      activeFilter === "No Annual Fee" ? card.annualFee === 0 :
-      activeFilter === "Cashback" ? card.rewardType === "cash" :
-      activeFilter === "Points" ? card.rewardType === "pts" : true;
+    // 2. Filter Logic (Fixed to catch "points" and "miles")
+    let matchesFilter = false;
+    if (activeFilter === "All") {
+      matchesFilter = true;
+    } else if (activeFilter === "No Annual Fee") {
+      matchesFilter = card.annualFee === 0;
+    } else if (activeFilter === "Cashback") {
+      matchesFilter = card.rewardType === "cash";
+    } else if (activeFilter === "Points") {
+      // This now checks if rewardType is "points" OR "miles"
+      matchesFilter = card.rewardType === "points" || card.rewardType === "miles";
+    }
 
     return matchesSearch && matchesFilter;
   });
@@ -245,9 +253,9 @@ const AllCards = ({ wallet, go }) => {
             />
           ))
         ) : (
-          <div className="empty" style={{padding: '40px 0'}}>
+          <div className="empty" style={{padding: '40px 0', textAlign: 'center'}}>
             <div style={{fontSize: '40px', marginBottom: '10px'}}>🤷‍♂️</div>
-            <div>No cards match your search</div>
+            <div style={{color: 'var(--txt3)'}}>No cards match your search</div>
           </div>
         )}
       </div>
