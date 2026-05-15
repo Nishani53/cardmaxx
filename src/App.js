@@ -310,8 +310,19 @@ const MyWallet = ({ wallet, removeCard, go }) => {
 
 // ─── CALCULATOR ───────────────────────────────────────────────────────────────
 const Calculator = ({ wallet }) => {
-  const [spend, setSpend] = useState({ dining:200, groceries:400, gas:150, travel:100, amazon:100, streaming:50, pharmacy:50, utilities:150, base:300 });
-
+const [spend, setSpend] = useState({ 
+  dining: 200,
+  groceries: 400,
+  gas_ev: 150,
+  travel: 100,
+  transit: 50,
+  online_grocery: 100,
+  streaming: 50,
+  pharmacy: 50,
+  entertainment: 50,
+  utilities: 150,
+  base: 300
+});
   // 1. Logic: Calculate results for EVERY card in the database first
   const allResults = CARDS.map(c => {
 let total = CATEGORIES.reduce((s, cat) => 
