@@ -540,7 +540,6 @@ export const CARDS = [
     "notes": "Complimentary Platinum Elite status; $300 Dining Credit ($25/mo); 85k pt Free Night Award."
   }, 
   
-  [
   {
     "id": 36,
     "name": "Southwest Rapid Rewards® Plus",
