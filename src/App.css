@@ -611,3 +611,41 @@ body { background: #0a0a0f; }
   color: white;
   border-color: var(--acc);
 }
+
+/* --- COMPARISON UI --- */
+.comp-box {
+  background: var(--surf);
+  border: 1px solid var(--bord);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.comp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.comp-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.badge-win { background: rgba(0, 212, 170, 0.15); color: var(--acc2); }
+.badge-loss { background: rgba(255, 71, 87, 0.15); color: var(--red); }
+
+.comp-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-top: 1px solid var(--bord);
+  font-size: 13px;
+}
+
+.comp-label { color: var(--txt2); }
+.comp-val { font-weight: 600; }
