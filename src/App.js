@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CARDS, CATEGORIES, LIMITED_OFFERS, PORTALS, fmt } from './data';
 
-// ─── SMALL ICONS ──────────────────────────────────────────────────────────────
+// ─── ICONS ────────────────────────────────────────────────────────────────────
 const IC = ({ d, size = 22 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -41,7 +41,7 @@ const CardRow = ({ card, reward, rank, onClick }) => (
     )}
     <div className="card-row-mid">
       <div className="card-row-name">{card.name}</div>
-      <div className="card-row-sub">{card.issuer} · {card.network}{card.annualFee > 0 ? ` · $${card.annualFee}/yr` : ''}</div>
+      <div className="card-row-sub">{card.issuer} · {card.network}{card.annualFee > 0 ? ` · $${card.annualFee}/yr` : ' · No annual fee'}</div>
     </div>
     {reward !== undefined && <Badge value={reward} type={card.rewardType} />}
   </div>
@@ -77,28 +77,21 @@ const Home = ({ go, wallet, theme, toggleTheme }) => {
           <span className="hb-arr">›</span>
         </button>
       </div>
-  
 
-     <div className="stats-row">
-  {/* Total Cards -> Goes to All Cards */}
-  <div className="stat" onClick={() => go('cards')} style={{ cursor: 'pointer' }}>
-    <div className="stat-n">{CARDS.length}</div>
-    <div className="stat-l">Total Cards</div>
-  </div>
-
-  {/* My Cards -> Goes to My Wallet */}
-  <div className="stat" onClick={() => go('wallet')} style={{ cursor: 'pointer' }}>
-    <div className="stat-n">{wallet.length}</div>
-    <div className="stat-l">My Cards</div>
-  </div>
-
-  {/* Categories -> Goes to Recommender (since that's where categories live) */}
-  <div className="stat" onClick={() => go('recommender')} style={{ cursor: 'pointer' }}>
-    <div className="stat-n">{CATEGORIES.length}</div>
-    <div className="stat-l">Categories</div>
-  </div>
-</div>
-    
+      <div className="stats-row">
+        <div className="stat" onClick={() => go('cards')} style={{ cursor: 'pointer' }}>
+          <div className="stat-n">{CARDS.length}</div>
+          <div className="stat-l">Total Cards</div>
+        </div>
+        <div className="stat" onClick={() => go('wallet')} style={{ cursor: 'pointer' }}>
+          <div className="stat-n">{wallet.length}</div>
+          <div className="stat-l">My Cards</div>
+        </div>
+        <div className="stat" onClick={() => go('recommender')} style={{ cursor: 'pointer' }}>
+          <div className="stat-n">{CATEGORIES.length}</div>
+          <div className="stat-l">Categories</div>
+        </div>
+      </div>
 
       <div className="sec-title">Quick Categories</div>
       <div className="quick-grid">
@@ -133,14 +126,13 @@ const Recommender = ({ wallet }) => {
 
   const pool = mineOnly && wallet.length > 0 ? CARDS.filter(c => wallet.includes(c.id)) : CARDS;
   const results = cat
-    ? [...pool].map(c => ({ ...c, r: c.rewards[cat.id] })).sort((a, b) => b.r - a.r)
+    ? [...pool].map(c => ({ ...c, r: c.rewards[cat.id] || c.rewards.base || 1 })).sort((a, b) => b.r - a.r)
     : [];
   const best = results[0];
 
   return (
     <div className="screen">
       <div className="pg-header"><h2>Find Best Card</h2><p>Pick your purchase category</p></div>
-
       <div className="cat-grid">
         {CATEGORIES.map(c => (
           <button key={c.id} className={`cat-btn ${cat?.id === c.id ? 'active' : ''}`} onClick={() => setCat(c)}>
@@ -158,7 +150,7 @@ const Recommender = ({ wallet }) => {
 
       {cat && best && (
         <div className="best-banner">
-          <div className="best-tag">🏆 Best for {cat.icon} {cat.label}</div>
+          <div className="best-tag">🏆 Best for {cat.icon} {cat.full}</div>
           <div className="best-name">{best.name}</div>
           <div className="best-reward-row">
             <Badge value={best.r} type={best.rewardType} large />
@@ -184,59 +176,44 @@ const Recommender = ({ wallet }) => {
 
 // ─── ALL CARDS ────────────────────────────────────────────────────────────────
 const AllCards = ({ wallet, go }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilter, setActiveFilter] = useState('All');
 
-  // Logic: Filter the cards based on Search + Pills
   const filteredCards = CARDS.filter(card => {
-    // 1. Search Logic
-    const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          card.issuer.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    // 2. Filter Logic (Fixed to catch "points" and "miles")
+    const matchesSearch =
+      card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      card.issuer.toLowerCase().includes(searchTerm.toLowerCase());
     let matchesFilter = false;
-    if (activeFilter === "All") {
-      matchesFilter = true;
-    } else if (activeFilter === "No Annual Fee") {
-      matchesFilter = card.annualFee === 0;
-    } else if (activeFilter === "Cashback") {
-      matchesFilter = card.rewardType === "cash";
-    } else if (activeFilter === "Points") {
-      // This now checks if rewardType is "points" OR "miles"
-      matchesFilter = card.rewardType === "points" || card.rewardType === "miles";
-    }
-
+    if (activeFilter === 'All') matchesFilter = true;
+    else if (activeFilter === 'No Annual Fee') matchesFilter = card.annualFee === 0;
+    else if (activeFilter === 'Cashback') matchesFilter = card.rewardType === 'cash';
+    else if (activeFilter === 'Points') matchesFilter = card.rewardType === 'points' || card.rewardType === 'miles';
     return matchesSearch && matchesFilter;
   });
 
-  const filters = ["All", "No Annual Fee", "Cashback", "Points"];
+  const filters = ['All', 'No Annual Fee', 'Cashback', 'Points'];
 
   return (
     <div className="screen">
       <div className="pg-header">
         <h2>Credit Cards</h2>
-        <p>Browse and find your next card</p>
+        <p>{CARDS.length} cards in database</p>
       </div>
 
       <div className="search-container">
         <div className="search-input-wrapper">
           <span className="search-icon">🔍</span>
-          <input 
-            type="text" 
-            className="search-bar" 
-            placeholder="Search cards or banks..." 
+          <input
+            type="text"
+            className="search-bar"
+            placeholder="Search cards or banks..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
-
         <div className="filter-scroll">
           {filters.map(f => (
-            <div 
-              key={f} 
-              className={`filter-pill ${activeFilter === f ? 'active' : ''}`}
-              onClick={() => setActiveFilter(f)}
-            >
+            <div key={f} className={`filter-pill ${activeFilter === f ? 'active' : ''}`} onClick={() => setActiveFilter(f)}>
               {f}
             </div>
           ))}
@@ -246,16 +223,12 @@ const AllCards = ({ wallet, go }) => {
       <div className="card-list">
         {filteredCards.length > 0 ? (
           filteredCards.map(c => (
-            <CardRow 
-              key={c.id} 
-              card={c} 
-              onClick={() => go('detail', { card: c })} 
-            />
+            <CardRow key={c.id} card={c} onClick={() => go('detail', { card: c })} />
           ))
         ) : (
-          <div className="empty" style={{padding: '40px 0', textAlign: 'center'}}>
-            <div style={{fontSize: '40px', marginBottom: '10px'}}>🤷‍♂️</div>
-            <div style={{color: 'var(--txt3)'}}>No cards match your search</div>
+          <div className="empty" style={{ padding: '40px 0', textAlign: 'center' }}>
+            <div style={{ fontSize: '40px', marginBottom: '10px' }}>🤷</div>
+            <div style={{ color: 'var(--txt3)' }}>No cards match your search</div>
           </div>
         )}
       </div>
@@ -264,7 +237,7 @@ const AllCards = ({ wallet, go }) => {
 };
 
 // ─── MY WALLET ────────────────────────────────────────────────────────────────
-const MyWallet = ({ wallet, removeCard, go }) => {
+const MyWallet = ({ wallet, toggleWallet, go }) => {
   const myCards = CARDS.filter(c => wallet.includes(c.id));
 
   return (
@@ -277,31 +250,25 @@ const MyWallet = ({ wallet, removeCard, go }) => {
       {myCards.length > 0 ? (
         <>
           <div className="wallet-tip">
-            <span>💡</span>
+            <InfoIc s={14} />
             <div>The Calculator uses these cards to find your best personal savings.</div>
           </div>
-          
           {myCards.map(c => (
             <div key={c.id} className="wallet-row">
               <CardRow card={c} onClick={() => go('detail', { card: c })} />
-              <button className="rm-btn" onClick={() => removeCard(c.id)}>✕</button>
+              <button className="rm-btn" onClick={() => toggleWallet(c.id)}><TrashIc s={16} /></button>
             </div>
           ))}
-
           <button className="add-more-btn" onClick={() => go('cards')}>
-            + Add Another Card
+            <PlusIc s={16} /> Add Another Card
           </button>
         </>
       ) : (
         <div className="empty-wallet">
           <div className="empty-icon">💳</div>
           <div className="empty-title">Your Wallet is Empty</div>
-          <div className="empty-sub">
-            Add the credit cards you already own to see exactly how much you're earning.
-          </div>
-          <button className="pulse-btn" onClick={() => go('cards')}>
-            Browse All Cards
-          </button>
+          <div className="empty-sub">Add the credit cards you already own to see exactly how much you're earning.</div>
+          <button className="pulse-btn" onClick={() => go('cards')}>Browse All Cards</button>
         </div>
       )}
     </div>
@@ -310,35 +277,33 @@ const MyWallet = ({ wallet, removeCard, go }) => {
 
 // ─── CALCULATOR ───────────────────────────────────────────────────────────────
 const Calculator = ({ wallet }) => {
-const [spend, setSpend] = useState({ 
-  dining: 200,
-  groceries: 400,
-  gas_ev: 150,
-  travel: 100,
-  transit: 50,
-  online_grocery: 100,
-  streaming: 50,
-  pharmacy: 50,
-  entertainment: 50,
-  utilities: 150,
-  base: 300
-});
-  // 1. Logic: Calculate results for EVERY card in the database first
+  // Keys MUST match CATEGORY IDs in data.js exactly
+  const [spend, setSpend] = useState({
+    dining: 200,
+    groceries: 400,
+    gas_ev: 150,
+    travel: 100,
+    transit: 50,
+    online_retail: 100,
+    streaming: 50,
+    pharmacy: 50,
+    entertainment: 50,
+    utilities: 150,
+    base: 300
+  });
+
+  // Calculate annual net value for each card using cat.id (not cat.label)
   const allResults = CARDS.map(c => {
-let total = CATEGORIES.reduce((s, cat) => 
-  s + ((c.rewards[cat.label.toLowerCase()] || 0) / 100) * (spend[cat.label.toLowerCase()] || 0) * 12
-, 0);
-    return { 
-      ...c, 
-      net: total - c.annualFee,
-      isOwned: wallet.includes(c.id) 
-    };
+    const total = CATEGORIES.reduce((sum, cat) => {
+      const rate = (c.rewards[cat.id] || c.rewards.base || 1) / 100;
+      const monthly = spend[cat.id] || 0;
+      return sum + rate * monthly * 12;
+    }, 0);
+    return { ...c, net: total - c.annualFee, isOwned: wallet.includes(c.id) };
   }).sort((a, b) => b.net - a.net);
 
-  // 2. Logic: Create two specific lists
   const myOwnedResults = allResults.filter(r => r.isOwned);
-  const globalTopResults = allResults.slice(0, 5); // Show top 5 overall
-
+  const globalTopResults = allResults.slice(0, 5);
   const totalMonthly = Object.values(spend).reduce((s, v) => s + Number(v), 0);
 
   return (
@@ -354,8 +319,11 @@ let total = CATEGORIES.reduce((s, cat) =>
             <label className="calc-lbl"><span>{cat.icon}</span><span>{cat.label}</span></label>
             <div className="calc-inp-wrap">
               <span className="dollar">$</span>
-              <input type="number" min="0" className="calc-inp" value={spend[cat.id]}
-                onChange={e => setSpend({ ...spend, [cat.id]: Number(e.target.value) })} />
+              <input
+                type="number" min="0" className="calc-inp"
+                value={spend[cat.id]}
+                onChange={e => setSpend({ ...spend, [cat.id]: Number(e.target.value) })}
+              />
               <span className="mo">/mo</span>
             </div>
           </div>
@@ -364,7 +332,6 @@ let total = CATEGORIES.reduce((s, cat) =>
 
       <div className="calc-total">Monthly total: <strong>${totalMonthly.toLocaleString()}</strong></div>
 
-      {/* SECTION A: YOUR CURRENT WALLET PERFORMANCE */}
       {wallet.length > 0 && (
         <div style={{ marginBottom: '24px' }}>
           <div className="sec-title">Your Current Best Setup</div>
@@ -373,10 +340,13 @@ let total = CATEGORIES.reduce((s, cat) =>
               <div className="cr-main-row">
                 <div className="cr-left">
                   <span className="cr-rank" style={{ color: 'var(--acc2)' }}>✓</span>
-                  <div className="cr-name">{c.name}</div>
+                  <div>
+                    <div className="cr-name">{c.name}</div>
+                    <div className="cr-type">{c.rewardLabel}</div>
+                  </div>
                 </div>
                 <div className="cr-right">
-                  <div className="cr-amt pos">${Math.round(c.net)}</div>
+                  <div className={`cr-amt ${c.net >= 0 ? 'pos' : 'neg'}`}>{c.net >= 0 ? '+' : ''}${Math.round(c.net)}</div>
                   <div className="cr-yr">per year</div>
                 </div>
               </div>
@@ -385,12 +355,10 @@ let total = CATEGORIES.reduce((s, cat) =>
         </div>
       )}
 
-      {/* SECTION B: GLOBAL OPPORTUNITIES (ALL CARDS) */}
-      <div className="sec-title">Top Cards Overall (Opportunity)</div>
+      <div className="sec-title">Top Cards Overall</div>
       {globalTopResults.map((c, i) => {
         const topAmount = globalTopResults[0].net;
-        const barWidth = topAmount > 0 ? (c.net / topAmount) * 100 : 0;
-
+        const barWidth = topAmount > 0 ? Math.max(0, (c.net / topAmount) * 100) : 0;
         return (
           <div key={c.id} className={`calc-result ${i === 0 ? 'top' : ''} ${c.isOwned ? 'owned-fade' : ''}`}>
             <div className="cr-main-row">
@@ -398,22 +366,18 @@ let total = CATEGORIES.reduce((s, cat) =>
                 <span className="cr-rank">#{i + 1}</span>
                 <div>
                   <div className="cr-name">
-                    {c.name} {c.isOwned && <span style={{fontSize: '10px', opacity: 0.6}}>(In Wallet)</span>}
+                    {c.name} {c.isOwned && <span style={{ fontSize: '10px', opacity: 0.6 }}>(In Wallet)</span>}
                   </div>
                   <div className="cr-type">{c.rewardLabel}</div>
                 </div>
               </div>
               <div className="cr-right">
-                <div className="cr-amt pos">${Math.round(c.net)}</div>
+                <div className={`cr-amt ${c.net >= 0 ? 'pos' : 'neg'}`}>{c.net >= 0 ? '+' : ''}${Math.round(c.net)}</div>
                 <div className="cr-yr">per year</div>
               </div>
             </div>
-            
             <div className="cr-bar-container">
-              <div 
-                className="cr-bar-fill" 
-                style={{ width: `${Math.max(0, barWidth)}%`, background: c.isOwned ? 'var(--acc2)' : '' }}
-              />
+              <div className="cr-bar-fill" style={{ width: `${barWidth}%`, background: c.isOwned ? 'var(--acc2)' : undefined }} />
             </div>
           </div>
         );
@@ -421,7 +385,7 @@ let total = CATEGORIES.reduce((s, cat) =>
 
       {wallet.length === 0 && (
         <div className="wallet-hint" style={{ marginTop: '12px' }}>
-          💡 Add your current cards in "My Wallet" to see how much you're leaving on the table!
+          💡 Add your cards in "My Wallet" to see how much you're leaving on the table!
         </div>
       )}
     </div>
@@ -442,7 +406,7 @@ const Deals = () => (
         <div className="deal-bot"><span>Expires: {o.expiry}</span><span>{o.source}</span></div>
       </div>
     ))}
-    <div className="update-note"><InfoIc s={14} /><span>Updated manually. Check credit card issuer for latest offers.</span></div>
+    <div className="update-note"><InfoIc s={14} /><span>Updated manually. Check issuer apps & thepointsguy.com for latest offers.</span></div>
   </div>
 );
 
@@ -464,15 +428,15 @@ const Portals = () => (
 // ─── GUIDE ────────────────────────────────────────────────────────────────────
 const Guide = () => {
   const items = [
-    { tag: 'STEP 1', icon: '💳', title: 'Add Your Cards', desc: 'Go to All Cards → tap any card → tap "Add to My Wallet". Add every card you own.' },
+    { tag: 'STEP 1', icon: '💳', title: 'Add Your Cards', desc: 'Go to All Cards → tap any card → tap "Add to Wallet". Add every card you own.' },
     { tag: 'STEP 2', icon: '🔍', title: 'Find Best Card', desc: 'Tap Find Best Card → select your purchase category → see all cards ranked best to worst instantly!' },
     { tag: 'STEP 3', icon: '🧮', title: 'Calculate Savings', desc: 'Enter your monthly spending to see which card saves you the most money per year.' },
     { tag: 'STEP 4', icon: '🛒', title: 'Stack Portals', desc: 'Check Portal Stacking before shopping online. Use portal + card together for maximum total rewards!' },
-    { tag: 'STEP 5', icon: '⚡', title: 'Track Deals', desc: 'Check Deals & Offers for limited-time bonuses. Update monthly from different sources.' },
+    { tag: 'STEP 5', icon: '⚡', title: 'Track Deals', desc: 'Check Deals & Offers for limited-time bonuses. Update monthly from thepointsguy.com.' },
     { tag: 'TIP A', icon: '🏆', title: 'Best Grocery Card', desc: 'Blue Cash Preferred (Amex) gives 6% cash back at US supermarkets — best in class.' },
     { tag: 'TIP B', icon: '🎯', title: 'Best Flat-Rate Card', desc: 'Citi Double Cash or Wells Fargo Active Cash — both 2% on everything. Keep one as catch-all.' },
     { tag: 'TIP C', icon: '✈️', title: 'Best Travel Card', desc: 'Chase Sapphire Reserve or Amex Platinum. Annual fee is worth it at 3+ trips/year.' },
-    { tag: 'TIP D', icon: '📦', title: 'Maximize Amazon', desc: 'Always use Amazon Prime Visa for Amazon.com — guaranteed 5% cash back every time.' },
+    { tag: 'TIP D', icon: '📦', title: 'Maximize Online Shopping', desc: 'Check Rakuten first for portals up to 15%, then use your best card on top.' },
   ];
   return (
     <div className="screen">
@@ -488,36 +452,39 @@ const Guide = () => {
   );
 };
 
-
-
 // ─── CARD DETAIL ──────────────────────────────────────────────────────────────
 const CardDetail = ({ params, wallet, toggleWallet, go }) => {
   const { card } = params;
   if (!card) return null;
-
   const isOwned = wallet.includes(card.id);
 
-  // Sample spend for logic
-  const sampleSpend = { dining: 300, groceries: 400, gas: 150, travel: 200, base: 500 };
-  const thisCardValue = CATEGORIES.reduce((s, cat) => 
-    s + (card.rewards[cat.id] / 100) * (sampleSpend[cat.id] || 0) * 12, 0) - card.annualFee;
+  // Sample spend uses correct category IDs
+  const sampleSpend = { dining: 300, groceries: 400, gas_ev: 150, travel: 200, base: 500 };
+  const thisCardValue = CATEGORIES.reduce((s, cat) => {
+    const rate = (card.rewards[cat.id] || card.rewards.base || 1) / 100;
+    return s + rate * (sampleSpend[cat.id] || 0) * 12;
+  }, 0) - card.annualFee;
 
   const myCards = CARDS.filter(c => wallet.includes(c.id));
-  const myBestValue = myCards.length > 0 
-    ? Math.max(...myCards.map(c => CATEGORIES.reduce((s, cat) => 
-        s + (c.rewards[cat.id] / 100) * (sampleSpend[cat.id] || 0) * 12, 0) - c.annualFee))
+  const myBestValue = myCards.length > 0
+    ? Math.max(...myCards.map(c =>
+        CATEGORIES.reduce((s, cat) => {
+          const rate = (c.rewards[cat.id] || c.rewards.base || 1) / 100;
+          return s + rate * (sampleSpend[cat.id] || 0) * 12;
+        }, 0) - c.annualFee
+      ))
     : 0;
 
   const diff = thisCardValue - myBestValue;
 
   return (
-    <div className="screen animate-in">
+    <div className="screen">
       <div className="detail-nav">
-        <button className="back-btn" onClick={() => go('cards')}><BackIc s={18}/> Back</button>
+        <button className="back-btn" onClick={() => go('cards')}><BackIc s={18} /> Back</button>
       </div>
 
       {/* Hero Card */}
-      <div className="detail-card">
+      <div className="detail-card" style={{ '--cc': card.color }}>
         <div>
           <div className="dc-issuer">{card.issuer}</div>
           <div className="dc-name">{card.name}</div>
@@ -525,23 +492,16 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
         <div className="dc-network">{card.network}</div>
       </div>
 
-      {/* Action Buttons (UPDATED SECTION) */}
+      {/* Action Buttons */}
       <div className="detail-actions">
-        <button 
+        <button
           className={`btn-primary ${isOwned ? 'btn-remove' : ''}`}
           onClick={() => toggleWallet(card.id)}
         >
-          {isOwned ? 'Remove from Wallet' : 'Add to Wallet'}
+          {isOwned ? '✕ Remove from Wallet' : '+ Add to Wallet'}
         </button>
-
-        {/* Show referral button only if referralUrl exists in data.js */}
         {card.referralUrl && (
-          <a 
-            href={card.referralUrl} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="apply-btn"
-          >
+          <a href={card.referralUrl} target="_blank" rel="noopener noreferrer" className="apply-btn">
             Apply Now & Get Bonus 🚀
           </a>
         )}
@@ -551,14 +511,14 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
       {wallet.length > 0 && !isOwned && (
         <div className="comp-box">
           <div className="comp-header">
-            <span style={{fontWeight: 700, fontSize: '14px'}}>Vs. Your Best Card</span>
+            <span style={{ fontWeight: 700, fontSize: '14px' }}>vs. Your Best Card</span>
             <span className={`comp-badge ${diff >= 0 ? 'badge-win' : 'badge-loss'}`}>
-              {diff >= 0 ? `+$${Math.round(diff)} Profit` : `$${Math.abs(Math.round(diff))} Loss`}
+              {diff >= 0 ? `+$${Math.round(diff)} better` : `$${Math.abs(Math.round(diff))} less`}
             </span>
           </div>
           <div className="comp-row">
-            <span className="comp-label">Est. Annual Value</span>
-            <span className="comp-val" style={{color: 'var(--acc2)'}}>${Math.round(thisCardValue)}</span>
+            <span className="comp-label">Est. Annual Value (sample spend)</span>
+            <span className="comp-val" style={{ color: 'var(--acc2)' }}>${Math.round(thisCardValue)}</span>
           </div>
         </div>
       )}
@@ -570,22 +530,22 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
           <div key={cat.id} className="dg-item">
             <div className="dg-icon">{cat.icon}</div>
             <div className="dg-label">{cat.label}</div>
-            <div className="dg-val" style={{ color: card.rewards[cat.id] >= 4 ? '#00d4aa' : 'inherit' }}>
-              {fmt(card.rewards[cat.id], card.rewardType)}
+            <div className="dg-val" style={{ color: (card.rewards[cat.id] || 1) >= 4 ? 'var(--acc2)' : 'var(--txt)' }}>
+              {fmt(card.rewards[cat.id] || card.rewards.base || 1, card.rewardType)}
             </div>
           </div>
         ))}
       </div>
 
+      <div className="sec-title">Annual Fee</div>
+      <div style={{ fontSize: '18px', fontWeight: '800', color: 'var(--txt)', marginBottom: '16px' }}>
+        {card.annualFee === 0 ? 'No annual fee ✅' : `$${card.annualFee}/year`}
+      </div>
+
       <div className="sec-title">Card Notes</div>
       <div className="notes-box">{card.notes}</div>
-      
-      <div className="sec-title">Annual Fee</div>
-      <div className="fee-box" style={{fontSize: '18px', fontWeight: '800'}}>
-        ${card.annualFee} <span style={{fontSize: '14px', fontWeight: '400', opacity: 0.6}}>per year</span>
-      </div>
-      
-      <div style={{height: '100px'}} />
+
+      <div style={{ height: '100px' }} />
     </div>
   );
 };
@@ -613,14 +573,11 @@ const Nav = ({ screen, go }) => {
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [screen, setScreen] = useState('home');
-  // 1. Added params state to store the "selected" card data
-  const [params, setParams] = useState({}); 
+  const [params, setParams] = useState({});
 
   const [theme, setTheme] = useState(() => {
-    try { return localStorage.getItem('cm_theme') || 'dark'; }
-    catch { return 'dark'; }
+    try { return localStorage.getItem('cm_theme') || 'dark'; } catch { return 'dark'; }
   });
-
   const toggleTheme = () => setTheme(t => {
     const next = t === 'dark' ? 'light' : 'dark';
     try { localStorage.setItem('cm_theme', next); } catch {}
@@ -628,32 +585,25 @@ export default function App() {
   });
 
   const [wallet, setWallet] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('cm_wallet') || '[]'); }
-    catch { return []; }
+    try { return JSON.parse(localStorage.getItem('cm_wallet') || '[]'); } catch { return []; }
   });
-
   const toggleWallet = id => setWallet(prev => {
     const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
     try { localStorage.setItem('cm_wallet', JSON.stringify(next)); } catch {}
     return next;
   });
 
-  // 2. Updated go function to handle passing card data
-  const go = (s, p = {}) => {
-    setScreen(s);
-    setParams(p);
-  };
+  const go = (s, p = {}) => { setScreen(s); setParams(p); };
 
   const pages = {
     home:        <Home go={go} wallet={wallet} theme={theme} toggleTheme={toggleTheme} />,
     recommender: <Recommender wallet={wallet} />,
-    cards:       <AllCards wallet={wallet} toggleWallet={toggleWallet} go={go} />,
+    cards:       <AllCards wallet={wallet} go={go} />,
     wallet:      <MyWallet wallet={wallet} toggleWallet={toggleWallet} go={go} />,
     calculator:  <Calculator wallet={wallet} />,
     deals:       <Deals />,
     portals:     <Portals />,
     guide:       <Guide />,
-    // 3. Registered the detail page here
     detail:      <CardDetail params={params} wallet={wallet} toggleWallet={toggleWallet} go={go} />,
   };
 
