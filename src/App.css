@@ -258,36 +258,91 @@ body { background: #0a0a0f; }
 }
 .pill.on { border-color: var(--acc); color: var(--acc); background: rgba(124,92,252,0.08); }
 
-/* ── CARD DETAIL ───────────────────────────────────────────────── */
-.back-btn {
-  display: flex; align-items: center; gap: 6px; background: none; border: none;
-  color: var(--txt2); font-size: 14px; cursor: pointer; padding: 16px 0 8px;
-}
-.detail-card { padding-bottom: 20px; }
-.detail-topbar { height: 3px; background: var(--cc, var(--acc)); border-radius: 2px; margin-bottom: 14px; }
-.detail-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--txt); margin-bottom: 6px; }
-.detail-meta { font-size: 13px; color: var(--txt2); margin-top: 3px; }
-.detail-type { font-size: 13px; color: var(--acc); font-weight: 600; margin-top: 4px; }
 
-.reward-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; background: var(--surf); border-radius: var(--r-sm); margin-bottom: 6px;
-}
-.rr-ico { font-size: 17px; width: 22px; text-align: center; }
-.rr-lbl { flex: 1; font-size: 13px; color: var(--txt2); }
+/* --- PREMIUM CARD DETAIL (REPLACE YOUR OLD SECTION WITH THIS) --- */
 
+.detail-nav { margin-bottom: 10px; }
+
+.detail-card {
+  height: 200px;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  /* This creates the dark metallic "Luxury" look */
+  background: linear-gradient(135deg, #1e293b 0%, #000000 100%) !important; 
+  margin-bottom: 20px;
+}
+
+.dc-name { font-size: 22px; font-weight: 800; margin-top: 8px; letter-spacing: -0.5px; }
+.dc-issuer { font-size: 13px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1.5px; }
+.dc-network { align-self: flex-end; font-weight: 700; opacity: 0.8; font-size: 14px; }
+
+/* The 3-Column Grid */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.dg-item {
+  background: var(--surf);
+  border: 1px solid var(--bord);
+  border-radius: 12px;
+  padding: 16px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dg-icon { font-size: 22px; margin-bottom: 6px; }
+.dg-label { font-size: 11px; color: var(--txt2); font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+.dg-val { font-size: 18px; font-weight: 800; color: var(--acc); }
+
+/* Aesthetic Action Button */
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--bord);
+  background: var(--surf);
+  color: var(--txt);
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.2s;
+}
+
+.btn-primary:active { transform: scale(0.98); }
+.btn-remove { border-color: #ff4757; color: #ff4757; background: rgba(255, 71, 87, 0.05); }
+
+/* Styled Notes */
 .notes-box {
-  display: flex; align-items: flex-start; gap: 8px;
-  background: rgba(124,92,252,0.07); border: 1px solid rgba(124,92,252,0.18);
-  border-radius: var(--r-sm); padding: 12px; font-size: 13px; color: var(--txt2);
-  line-height: 1.5; margin: 14px 0;
+  background: rgba(124, 92, 252, 0.05);
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid var(--acc);
+  font-size: 13px;
+  color: var(--txt2);
+  line-height: 1.6;
 }
-.wallet-btn {
-  width: 100%; padding: 14px; border-radius: var(--r); border: 1.5px solid var(--acc);
-  background: rgba(124,92,252,0.1); color: var(--acc);
-  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.15s;
+
+.sec-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--txt3);
+  margin: 24px 0 12px 0;
+  font-weight: 800;
 }
-.wallet-btn.in { background: var(--acc); color: #fff; }
+
 
 /* ── MY WALLET ─────────────────────────────────────────────────── */
 .wallet-tip {
