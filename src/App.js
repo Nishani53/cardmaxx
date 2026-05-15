@@ -77,12 +77,28 @@ const Home = ({ go, wallet, theme, toggleTheme }) => {
           <span className="hb-arr">›</span>
         </button>
       </div>
+  
 
-      <div className="stats-row">
-        <div className="stat"><div className="stat-n">{CARDS.length}</div><div className="stat-l">Total Cards</div></div>
-        <div className="stat"><div className="stat-n">{wallet.length}</div><div className="stat-l">My Cards</div></div>
-        <div className="stat"><div className="stat-n">{CATEGORIES.length}</div><div className="stat-l">Categories</div></div>
-      </div>
+     <div className="stats-row">
+  {/* Total Cards -> Goes to All Cards */}
+  <div className="stat" onClick={() => go('cards')} style={{ cursor: 'pointer' }}>
+    <div className="stat-n">{CARDS.length}</div>
+    <div className="stat-l">Total Cards</div>
+  </div>
+
+  {/* My Cards -> Goes to My Wallet */}
+  <div className="stat" onClick={() => go('wallet')} style={{ cursor: 'pointer' }}>
+    <div className="stat-n">{wallet.length}</div>
+    <div className="stat-l">My Cards</div>
+  </div>
+
+  {/* Categories -> Goes to Recommender (since that's where categories live) */}
+  <div className="stat" onClick={() => go('recommender')} style={{ cursor: 'pointer' }}>
+    <div className="stat-n">{CATEGORIES.length}</div>
+    <div className="stat-l">Categories</div>
+  </div>
+</div>
+    
 
       <div className="sec-title">Quick Categories</div>
       <div className="quick-grid">
