@@ -18,18 +18,28 @@ export const CARDS = [
     rewards: { dining: 2, groceries: 1, gas: 1, travel: 2, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
     notes: "2X on American Airlines purchases; 1X everywhere else"
   },
-  {
-    id: 2,
-    name: "Amex Blue Cash Everyday",
-    issuer: "American Express",
-    network: "Amex",
-    annualFee: 0,
-    rewardType: "cash",
-    rewardLabel: "Cash Back",
-    color: "#006fcf",
-    rewards: { dining: 1, groceries: 3, gas: 1, travel: 1, amazon: 1, streaming: 1, pharmacy: 1, utilities: 1, base: 1 },
-    notes: "3% at US supermarkets, 2% on gas and transit"
+{
+  id: 2,
+  name: "Amex Blue Cash Everyday",
+  issuer: "American Express",
+  network: "Amex",
+  annualFee: 0,
+  rewardType: "cash",
+  rewardLabel: "Cash Back",
+  color: "#006fcf",
+  rewards: { 
+    dining: 1, 
+    groceries: 3, 
+    gas: 3,        // Updated from 1% to 3%
+    travel: 1, 
+    amazon: 3,     // Online retail includes Amazon
+    streaming: 1, 
+    pharmacy: 1, 
+    utilities: 1, 
+    base: 1 
   },
+  notes: "3% on US supermarkets, online retail, and gas (up to $6k/yr per category)."
+},
   {
     id: 3,
     name: "Amex Business Gold",
