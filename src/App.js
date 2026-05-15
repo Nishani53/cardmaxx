@@ -474,19 +474,21 @@ const Guide = () => {
     </div>
   );
 };
+
+
+
 // ─── CARD DETAIL ──────────────────────────────────────────────────────────────
 const CardDetail = ({ params, wallet, toggleWallet, go }) => {
   const { card } = params;
+  if (!card) return null;
+
   const isOwned = wallet.includes(card.id);
 
-  // Sample monthly spend to show comparison
+  // We use a sample spend for the logic, but you can link this to your calculator state later
   const sampleSpend = { dining: 300, groceries: 400, gas: 150, travel: 200, base: 500 };
-  
-  // Calculate this card's annual value
   const thisCardValue = CATEGORIES.reduce((s, cat) => 
     s + (card.rewards[cat.id] / 100) * (sampleSpend[cat.id] || 0) * 12, 0) - card.annualFee;
 
-  // Find user's current best card from their wallet for comparison
   const myCards = CARDS.filter(c => wallet.includes(c.id));
   const myBestValue = myCards.length > 0 
     ? Math.max(...myCards.map(c => CATEGORIES.reduce((s, cat) => 
@@ -501,13 +503,16 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
         <button className="back-btn" onClick={() => go('cards')}><BackIc s={18}/> Back</button>
       </div>
 
-      <div className="detail-card" style={{ background: card.color }}>
-        <div className="dc-issuer">{card.issuer}</div>
-        <div className="dc-name">{card.name}</div>
-        <div className="dc-chip" />
+      {/* Hero Card with Premium Gradient */}
+      <div className="detail-card">
+        <div>
+          <div className="dc-issuer">{card.issuer}</div>
+          <div className="dc-name">{card.name}</div>
+        </div>
         <div className="dc-network">{card.network}</div>
       </div>
 
+      {/* Action Button */}
       <div className="detail-actions">
         <button 
           className={`btn-primary ${isOwned ? 'btn-remove' : ''}`}
@@ -517,6 +522,7 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
         </button>
       </div>
 
+      {/* Comparison Box (Only shows if you have other cards) */}
       {wallet.length > 0 && !isOwned && (
         <div className="comp-box">
           <div className="comp-header">
@@ -526,24 +532,21 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
             </span>
           </div>
           <div className="comp-row">
-            <span className="comp-label">This Card's Est. Rewards</span>
-            <span className="comp-val" style={{color: 'var(--acc2)'}}>${Math.round(thisCardValue)}/yr</span>
-          </div>
-          <div className="comp-row">
-            <span className="comp-label">Your Current Best</span>
-            <span className="comp-val">${Math.round(myBestValue)}/yr</span>
+            <span className="comp-label">Est. Annual Value</span>
+            <span className="comp-val" style={{color: 'var(--acc2)'}}>${Math.round(thisCardValue)}</span>
           </div>
         </div>
       )}
 
+      {/* THE GRID: This is the core change for the aesthetic look */}
       <div className="sec-title">Reward Rates</div>
       <div className="detail-grid">
         {CATEGORIES.map(cat => (
           <div key={cat.id} className="dg-item">
             <div className="dg-icon">{cat.icon}</div>
-            <div className="dg-info">
-              <div className="dg-label">{cat.label}</div>
-              <div className="dg-val">{fmt(card.rewards[cat.id], card.rewardType)}</div>
+            <div className="dg-label">{cat.label}</div>
+            <div className="dg-val" style={{ color: card.rewards[cat.id] >= 4 ? '#00d4aa' : 'inherit' }}>
+              {fmt(card.rewards[cat.id], card.rewardType)}
             </div>
           </div>
         ))}
@@ -553,7 +556,11 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
       <div className="notes-box">{card.notes}</div>
       
       <div className="sec-title">Annual Fee</div>
-      <div className="fee-box">${card.annualFee} <span className="fee-label">per year</span></div>
+      <div className="fee-box" style={{fontSize: '18px', fontWeight: '800'}}>
+        ${card.annualFee} <span style={{fontSize: '14px', fontWeight: '400', opacity: 0.6}}>per year</span>
+      </div>
+      
+      <div style={{height: '100px'}} />
     </div>
   );
 };
