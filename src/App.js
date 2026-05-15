@@ -289,17 +289,28 @@ const MyWallet = ({ wallet, removeCard, go }) => {
 const Calculator = ({ wallet }) => {
   const [spend, setSpend] = useState({ dining:200, groceries:400, gas:150, travel:100, amazon:100, streaming:50, pharmacy:50, utilities:150, base:300 });
 
-  const pool = wallet.length > 0 ? CARDS.filter(c => wallet.includes(c.id)) : CARDS;
-  const results = pool.map(c => {
+  // 1. Logic: Calculate results for EVERY card in the database first
+  const allResults = CARDS.map(c => {
     let total = CATEGORIES.reduce((s, cat) => s + (c.rewards[cat.id] / 100) * (spend[cat.id] || 0) * 12, 0);
-    return { ...c, net: total - c.annualFee };
+    return { 
+      ...c, 
+      net: total - c.annualFee,
+      isOwned: wallet.includes(c.id) 
+    };
   }).sort((a, b) => b.net - a.net);
+
+  // 2. Logic: Create two specific lists
+  const myOwnedResults = allResults.filter(r => r.isOwned);
+  const globalTopResults = allResults.slice(0, 5); // Show top 5 overall
 
   const totalMonthly = Object.values(spend).reduce((s, v) => s + Number(v), 0);
 
   return (
     <div className="screen">
-      <div className="pg-header"><h2>Savings Calculator</h2><p>Enter your monthly spend per category</p></div>
+      <div className="pg-header">
+        <h2>Savings Calculator</h2>
+        <p>See how your cards compare to the market</p>
+      </div>
 
       <div className="calc-inputs">
         {CATEGORIES.map(cat => (
@@ -317,48 +328,70 @@ const Calculator = ({ wallet }) => {
 
       <div className="calc-total">Monthly total: <strong>${totalMonthly.toLocaleString()}</strong></div>
 
-      {wallet.length === 0 && <div className="wallet-hint">💡 Add cards to My Wallet to see personalized results</div>}
+      {/* SECTION A: YOUR CURRENT WALLET PERFORMANCE */}
+      {wallet.length > 0 && (
+        <div style={{ marginBottom: '24px' }}>
+          <div className="sec-title">Your Current Best Setup</div>
+          {myOwnedResults.slice(0, 3).map(c => (
+            <div key={c.id} className="calc-result owned-highlight">
+              <div className="cr-main-row">
+                <div className="cr-left">
+                  <span className="cr-rank" style={{ color: 'var(--acc2)' }}>✓</span>
+                  <div className="cr-name">{c.name}</div>
+                </div>
+                <div className="cr-right">
+                  <div className="cr-amt pos">${Math.round(c.net)}</div>
+                  <div className="cr-yr">per year</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
-      <div className="sec-title">Best Cards for Your Spending</div>
-
-      {/* --- UPDATED RESULTS SECTION --- */}
-      {results.slice(0, 10).map((c, i) => {
-        // This calculates how long the progress bar should be compared to the #1 card
-        const topAmount = results[0].net;
+      {/* SECTION B: GLOBAL OPPORTUNITIES (ALL CARDS) */}
+      <div className="sec-title">Top Cards Overall (Opportunity)</div>
+      {globalTopResults.map((c, i) => {
+        const topAmount = globalTopResults[0].net;
         const barWidth = topAmount > 0 ? (c.net / topAmount) * 100 : 0;
 
         return (
-          <div key={c.id} className={`calc-result ${i === 0 ? 'top' : ''}`}>
-            {/* Top row with name and dollar amount */}
+          <div key={c.id} className={`calc-result ${i === 0 ? 'top' : ''} ${c.isOwned ? 'owned-fade' : ''}`}>
             <div className="cr-main-row">
               <div className="cr-left">
                 <span className="cr-rank">#{i + 1}</span>
                 <div>
-                  <div className="cr-name">{c.name}</div>
+                  <div className="cr-name">
+                    {c.name} {c.isOwned && <span style={{fontSize: '10px', opacity: 0.6}}>(In Wallet)</span>}
+                  </div>
                   <div className="cr-type">{c.rewardLabel}</div>
                 </div>
               </div>
               <div className="cr-right">
-                <div className={`cr-amt ${c.net >= 0 ? 'pos' : 'neg'}`}>
-                  {c.net >= 0 ? '+' : ''}${Math.round(c.net)}
-                </div>
+                <div className="cr-amt pos">${Math.round(c.net)}</div>
                 <div className="cr-yr">per year</div>
               </div>
             </div>
             
-            {/* The new Progress Bar that shows up under the text */}
             <div className="cr-bar-container">
               <div 
                 className="cr-bar-fill" 
-                style={{ width: `${Math.max(0, barWidth)}%` }}
+                style={{ width: `${Math.max(0, barWidth)}%`, background: c.isOwned ? 'var(--acc2)' : '' }}
               />
             </div>
           </div>
         );
       })}
+
+      {wallet.length === 0 && (
+        <div className="wallet-hint" style={{ marginTop: '12px' }}>
+          💡 Add your current cards in "My Wallet" to see how much you're leaving on the table!
+        </div>
+      )}
     </div>
   );
 };
+
 // ─── DEALS ────────────────────────────────────────────────────────────────────
 const Deals = () => (
   <div className="screen">
