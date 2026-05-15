@@ -391,6 +391,21 @@ body { background: #0a0a0f; }
 .cr-amt.neg { color: var(--red); }
 .cr-yr { font-size: 10px; color: var(--txt3); }
 
+/* ... existing .cr-yr code ... */
+.cr-yr { font-size: 10px; color: var(--txt3); }
+
+/* --- NEW COMPARISON STYLES --- */
+.owned-highlight {
+  border-left: 4px solid var(--acc2) !important;
+  background: rgba(0, 212, 170, 0.05) !important;
+  margin-bottom: 6px;
+}
+
+.owned-fade {
+  border-style: dashed;
+  opacity: 0.8;
+}
+
 /* ── DEALS ─────────────────────────────────────────────────────── */
 .deal-card {
   background: var(--surf); border: 1px solid var(--bord);
