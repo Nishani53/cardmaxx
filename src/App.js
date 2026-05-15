@@ -484,7 +484,7 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
 
   const isOwned = wallet.includes(card.id);
 
-  // We use a sample spend for the logic, but you can link this to your calculator state later
+  // Sample spend for logic
   const sampleSpend = { dining: 300, groceries: 400, gas: 150, travel: 200, base: 500 };
   const thisCardValue = CATEGORIES.reduce((s, cat) => 
     s + (card.rewards[cat.id] / 100) * (sampleSpend[cat.id] || 0) * 12, 0) - card.annualFee;
@@ -503,7 +503,7 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
         <button className="back-btn" onClick={() => go('cards')}><BackIc s={18}/> Back</button>
       </div>
 
-      {/* Hero Card with Premium Gradient */}
+      {/* Hero Card */}
       <div className="detail-card">
         <div>
           <div className="dc-issuer">{card.issuer}</div>
@@ -512,7 +512,7 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
         <div className="dc-network">{card.network}</div>
       </div>
 
-      {/* Action Button */}
+      {/* Action Buttons (UPDATED SECTION) */}
       <div className="detail-actions">
         <button 
           className={`btn-primary ${isOwned ? 'btn-remove' : ''}`}
@@ -520,9 +520,21 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
         >
           {isOwned ? 'Remove from Wallet' : 'Add to Wallet'}
         </button>
+
+        {/* Show referral button only if referralUrl exists in data.js */}
+        {card.referralUrl && (
+          <a 
+            href={card.referralUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="apply-btn"
+          >
+            Apply Now & Get Bonus 🚀
+          </a>
+        )}
       </div>
 
-      {/* Comparison Box (Only shows if you have other cards) */}
+      {/* Comparison Box */}
       {wallet.length > 0 && !isOwned && (
         <div className="comp-box">
           <div className="comp-header">
@@ -538,7 +550,7 @@ const CardDetail = ({ params, wallet, toggleWallet, go }) => {
         </div>
       )}
 
-      {/* THE GRID: This is the core change for the aesthetic look */}
+      {/* Reward Grid */}
       <div className="sec-title">Reward Rates</div>
       <div className="detail-grid">
         {CATEGORIES.map(cat => (
