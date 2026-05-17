@@ -50,7 +50,7 @@ const CardRow = ({ card, reward, rank, onClick }) => (
 // ─── HOME ─────────────────────────────────────────────────────────────────────
 const Home = ({ go, wallet, theme, toggleTheme }) => {
   const h = new Date().getHours();
-  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon Bobby' : 'Good evening';
   return (
     <div className="screen">
       <div className="hero">
